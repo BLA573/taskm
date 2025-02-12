@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 export default function AddTask({ setAddTask }) {
   const handleClick = () => {
     setAddTask(false);
@@ -8,10 +7,10 @@ export default function AddTask({ setAddTask }) {
     e.preventDefault();
   };
   return (
-    <div className="absolute bottom-0 left-4 bg-grayt w-80 rounded-xl border-4 border-[#4d373c]">
+    <div className="absolute top-12 -left-10 min-[440px]:left-0 bg-grayt w-80 rounded-xl border-4 border-[#4d373c] overflow-y-auto z-30">
       <form onSubmit={handleSubmit} className="flex flex-col p-2">
         <div className="flex justify-between pb-2 ">
-          <h1 className="text-white text-sm ">Task detail</h1>
+          <h1 className="text-white text-sm ">Task</h1>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="20"
@@ -27,17 +26,6 @@ export default function AddTask({ setAddTask }) {
             <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"></path>
           </svg>
         </div>
-        <Image
-          className="rounded-md mb-3"
-          src={"/pic1.png"}
-          style={{
-            width: "100%",
-            height: "80px",
-          }}
-          width={200}
-          height={50}
-          alt="taskImage"
-        />
         <label className="text-xs text-gray-200 pb-2">Task detail</label>
         <input
           type="text"

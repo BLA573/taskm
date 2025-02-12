@@ -33,8 +33,9 @@ export default function AddBoard({ setAddboard }) {
     e.preventDefault();
   };
 
+  // left-10 bottom-8
   return (
-    <div className="absolute bottom-7 left-4 bg-grayt w-80 rounded-xl border-4 border-[#4d373c] z-10">
+    <div className="absolute left-0 bottom-8 min-[400px]:left-10  bg-grayt w-80 rounded-xl border-4 border-[#4d373c] z-10">
       <form onSubmit={handleSubmit} className="flex flex-col p-2">
         <div className="flex justify-between pb-2 ">
           <h1 className="text-white text-sm">New board</h1>

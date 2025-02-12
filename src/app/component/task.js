@@ -10,7 +10,7 @@ export default function Task({ taskDetail, image, tags = [] }) {
   color.set(4, "lightgreen");
 
   return (
-    <div className="bg-darkgray rounded-xl p-2 flex flex-col gap-2 w-full text-[15px]">
+    <div className="bg-darkgray rounded-xl p-2 flex flex-col gap-2 text-[15px] w-full">
       {image && (
         <Image
           className="rounded-md"
