@@ -7,7 +7,7 @@ export default function AddTask({ setAddTask }) {
     e.preventDefault();
   };
   return (
-    <div className="absolute top-12 -left-10 min-[440px]:left-0 bg-grayt w-80 rounded-xl border-4 border-[#4d373c] overflow-y-auto z-30">
+    <div className="absolute  min-[440px]:left-0 bg-grayt w-72 rounded-xl border-4 border-[#4d373c] overflow-y-auto z-30">
       <form onSubmit={handleSubmit} className="flex flex-col p-2">
         <div className="flex justify-between pb-2 ">
           <h1 className="text-white text-sm ">Task</h1>
@@ -36,7 +36,7 @@ export default function AddTask({ setAddTask }) {
         <input
           type="text"
           placeholder="Backlog"
-          className="bg-grayt text-blue-500 text-sm border p-1 px-2 rounded-lg border-[#4a4d52] mb-3 focus:outline-none"
+          className="bg-grayt text-sm border p-1 px-2 rounded-lg border-[#4a4d52] mb-3 focus:outline-none"
         />
         <label className="text-xs text-gray-200 pb-2">Tag</label>
         <input

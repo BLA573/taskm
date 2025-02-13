@@ -58,10 +58,7 @@ export default function SidebarList({ colaps, setAddboard, addBoard }) {
           </div>
         </div>
       ))}
-      <div
-        onClick={handleClick}
-        className="flex gap-2 items-center cursor-pointer border-2 border-transparent p-2 relative"
-      >
+      <div className="flex gap-2 items-center cursor-pointer border-2 border-transparent p-2 relative">
         {addBoard && <AddBoard setAddboard={setAddboard} />}
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -69,10 +66,14 @@ export default function SidebarList({ colaps, setAddboard, addBoard }) {
           height="24"
           viewBox="0 0 24 24"
           fill="white"
+          onClick={handleClick}
         >
           <path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"></path>
         </svg>
-        <div className={`text-white text-sm ${colaps && "hidden"}`}>
+        <div
+          onClick={handleClick}
+          className={`text-white text-sm ${colaps && "hidden"}`}
+        >
           Add board
         </div>
       </div>

@@ -1,8 +1,8 @@
 "use client";
-import SidebarList from "./component/SidebarList";
-import Task from "./component/task";
-import AddBoard from "./component/AddBoard";
-import AddTask from "./component/AddTask";
+import SidebarList from "../component/SidebarList";
+import Task from "../component/task";
+import AddBoard from "../component/AddBoard";
+import AddTask from "../component/AddTask";
 import { useState } from "react";
 
 export default function Home() {
@@ -18,7 +18,10 @@ export default function Home() {
   };
 
   return (
-    <div className="flex overflow-x-hidden ">
+    <div
+      onClick={(e) => e.stopPropagation()}
+      className="flex overflow-x-hidden "
+    >
       <div
         className={`bg-darkgray h-screen w-[250px] flex flex-col justify-between p-2 pt-5 ${
           colaps && "items-center w-[60px] "
@@ -45,26 +48,6 @@ export default function Home() {
             setAddboard={setAddboard}
             addBoard={addBoard}
           />
-          {/* add new board */}
-          <div className=" relative">
-            {/* <div
-              onClick={handleClick}
-              className="flex gap-2 items-center cursor-pointer"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="white"
-              >
-                <path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"></path>
-              </svg>
-              <div className={`text-white text-sm ${colaps && "hidden"}`}>
-                Add new board
-              </div>
-            </div> */}
-          </div>
         </div>
         <div className="bg-grayt p-1 rounded-xl flex justify-center text-sm w-full">
           <button
@@ -101,8 +84,8 @@ export default function Home() {
           </button>
         </div>
       </div>
-      <div className="h-screen w-full bg-grayt overflow-y-scroll">
-        <div className="bg-grayt w-full text-white break-word grid grid-cols-1 min-[666px]:grid-cols-2 min-[920px]:grid-cols-3 min-[1150px]:grid-cols-4 pt-5">
+      <div className="h-screen w-full bg-grayt overflow-y-scroll ">
+        <div className="bg-grayt w-full text-white break-word grid grid-cols-1 min-[666px]:grid-cols-2 min-[920px]:grid-cols-3 min-[1150px]:grid-cols-4 pt-5 mb-10">
           <div className="flex flex-col items-center gap-4 px-2 pb-3 max-w-[300px] w-full mx-auto ">
             <div className="flex items-center gap-2">
               <div className="h-2 w-2 rounded-full bg-red-500 "></div>
@@ -115,22 +98,28 @@ export default function Home() {
               }
               tags={["design", "frontend"]}
             />
-            <div className="relative flex w-full z-30 ">
-              {addTask && <AddTask setAddTask={setAddTask} />}
-              <div
-                onClick={handleAddTaskClick}
-                className="flex justify-between px-4 py-2 bg-gray-300 text-bluet font-semibold rounded-xl cursor-pointer  w-full"
-              >
-                <button>Add New Task</button>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  style={{ fill: "#3762e4" }}
+            <div className="relative flex w-full ">
+              <div className=" px-4 py-2 bg-gray-300  font-semibold rounded-xl cursor-pointer  w-full">
+                {addTask && (
+                  <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                    <AddTask setAddTask={setAddTask} />
+                  </div>
+                )}
+                <div
+                  className="flex justify-between"
+                  onClick={handleAddTaskClick}
                 >
-                  <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"></path>
-                </svg>
+                  <button className="text-bluet">Add New Task</button>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    style={{ fill: "#3762e4" }}
+                  >
+                    <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"></path>
+                  </svg>
+                </div>
               </div>
             </div>
           </div>
