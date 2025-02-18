@@ -77,24 +77,17 @@ export async function GET(req) {
 
   try {
     const { searchParams } = new URL(req.url);
-    const boardId = searchParams.get("boardId");
     const userId = searchParams.get("userId");
 
     // Query validation
-    if (!boardId && !userId) {
+    if (!userId) {
       return NextResponse.json(
         { message: "Provide boardId or userId" },
         { status: 400 }
       );
     }
-    let query = {};
-    if (boardId) query.board_Id = boardId;
-    if (userId) query.user_id = userId;
 
-    const tasks = await Task.find(query)
-      .sort({ createdAt: -1 })
-      .populate("board_Id", "title")
-      .populate("user_id", "name");
+    const tasks = await Task.find({ user_id: userId }).sort({ createdAt: -1 });
 
     return NextResponse.json(tasks, { status: 200 });
   } catch (error) {
@@ -108,7 +101,7 @@ export async function GET(req) {
 export async function DELETE() {
   dbConnect();
   try {
-    const deleteTask = await Task.deleteMany();
+    const deleteTask = await Task.deleteMany({ board_Id: null });
     return NextResponse.json(deleteTask, { status: 200 });
   } catch (error) {
     return NextResponse.json(

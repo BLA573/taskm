@@ -9,7 +9,6 @@ import SideBar from "./component/SideBar";
 
 export default function Home() {
   const [addTask, setAddTask] = useState(false);
-  const [addBoard, setAddboard] = useState(false);
   //const { user, loading } = useUser();
   const { tasks } = useTasks();
   const { selectedBoard } = useBoards();
@@ -32,7 +31,6 @@ export default function Home() {
         <div className="bg-[#2E2B44] w-full text-white break-word grid grid-cols-1 min-[666px]:grid-cols-2 min-[920px]:grid-cols-3 min-[1150px]:grid-cols-4 pt-5 items-start">
           <div className="flex flex-col items-center gap-2 max-w-[260px] w-full mx-auto border border-gray-700 rounded-2xl p-2">
             <div className="flex items-center justify-between w-full border-b border-gray-400 p-3">
-              {/* <div className="h-2 w-2 rounded-full bg-red-500 "></div> */}
               <div className="flex items-center gap-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -67,28 +65,12 @@ export default function Home() {
                   <AddTask setAddTask={setAddTask} />
                 </div>
               )}
-              {/* <div
-                  className="flex justify-between"
-                  onClick={handleAddTaskClick}
-                >
-                  <button className="text-bluet">Add New Task</button>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    style={{ fill: "#3762e4" }}
-                  >
-                    <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"></path>
-                  </svg>
-                </div> */}
             </div>
             {tasks &&
               selectedBoard &&
               tasks.map((task, index) => {
                 if (
                   task.status === "backlog" &&
-                  // (selectedBoard === task.board_Id._id ||
                   selectedBoard === task.board_Id
                 ) {
                   return (

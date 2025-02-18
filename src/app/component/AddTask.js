@@ -53,9 +53,9 @@ export default function AddTask({ setAddTask }) {
   };
 
   return (
-    <div className="absolute min-[440px]:left-0 bg-grayt w-72 rounded-xl border-4 border-[#4d373c] overflow-y-auto z-30">
+    <div className="absolute bg-[#2E2B44] w-72 rounded-xl border-4 border-[#4d373c] overflow-y-auto z-30 p-1">
       <form action={handleSubmit} className="flex flex-col p-2">
-        <div className="flex justify-between pb-2">
+        <div className="flex justify-between pb-7">
           <h1 className="text-white text-sm">Task</h1>
           <button
             type="button"
@@ -82,7 +82,7 @@ export default function AddTask({ setAddTask }) {
         <input
           type="text"
           placeholder="Design my portfolio website"
-          className="bg-grayt text-sm border p-1 px-2 rounded-lg border-[#4a4d52] mb-3 focus:outline-none"
+          className="bg-grayt text-white text-sm border p-1 px-2 rounded-lg border-[#4a4d52] mb-4 focus:outline-none"
           value={detail}
           required
           onChange={(e) => setDetail(e.target.value)}
@@ -93,7 +93,7 @@ export default function AddTask({ setAddTask }) {
         <select
           value={status}
           onChange={(e) => setStatus(e.target.value)}
-          className="bg-grayt text-sm border p-1 px-2 rounded-lg border-[#4a4d52] mb-3 focus:outline-none"
+          className="bg-grayt text-sm border p-1 px-2 rounded-lg border-[#4a4d52] mb-4 focus:outline-none"
           aria-label="Task status"
         >
           <option value="" disabled>
@@ -109,18 +109,15 @@ export default function AddTask({ setAddTask }) {
         <input
           type="text"
           placeholder="Design, UI, Portfolio"
-          className="bg-grayt text-sm border p-1 px-2 rounded-lg border-[#4a4d52] mb-3 focus:outline-none"
+          className="bg-grayt text-sm border p-1 px-2 rounded-lg border-[#4a4d52] mb-4 focus:outline-none"
           value={tags}
           onChange={(e) => setTags(e.target.value)}
           aria-label="Task tags"
         />
 
-        {error && <div className="text-red-500 text-sm mt-2">{error}</div>}
-
         <button
           type="submit"
-          disabled={isLoading}
-          className="text-sm bg-bluet px-3 py-1 rounded-2xl flex items-center justify-center shadow-lg gap-2 w-fit"
+          className="text-sm bg-orange-400 px-3 py-1 rounded-2xl flex items-center justify-center shadow-lg gap-2 mt-2"
         >
           {isLoading ? "Saving..." : "Save"}
           {!isLoading && (
