@@ -55,6 +55,7 @@ export default function AddTask({ setAddTask, status }) {
           placeholder="Design my portfolio website"
           className="bg-grayt text-white text-sm border p-1 px-2 rounded-lg border-[#4a4d52] mb-3 focus:outline-none"
           value={detail}
+          autoFocus
           required
           onChange={(e) => setDetail(e.target.value)}
           aria-label="Task detail"

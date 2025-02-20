@@ -37,7 +37,6 @@ export function TaskProvider({ children }) {
     }
   };
   const updateTask = async (taskId, updateData) => {
-    console.log(taskId, updateData);
     // Store previous state in case of rollback
     const previousTasks = [...tasks];
 

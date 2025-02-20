@@ -58,7 +58,7 @@ export async function POST(req) {
     // Create new task
     const newTask = await Task.create({
       detail,
-      tags: tags || [],
+      tags: tags || " ",
       status: status || "in progress",
       board_Id,
       user_id,

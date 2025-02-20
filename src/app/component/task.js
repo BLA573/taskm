@@ -1,71 +1,76 @@
 import { useTasks } from "@/contexts/UseTask";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 export default function Task({ task }) {
-  const { deleteTask } = useState();
+  const { deleteTask, updateTask } = useTasks();
   const [status, setStatus] = useState(task.status);
   const [detail, setDetail] = useState(task.detail);
   const [tags, setTags] = useState(task.tags);
   const [isEditing, setIsEditing] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
 
-  const { updateTask } = useTasks();
+  const editFormRef = useRef(null); // Ref to track the edit form
+
+  // Handle clicks outside the edit form
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (editFormRef.current && !editFormRef.current.contains(event.target)) {
+        setIsEditing(false); // Close edit mode
+      }
+    };
+
+    // Add event listener when the component mounts
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
-    setError(null);
+    e.stopPropagation();
 
     try {
-      const validStatus = [
-        "backlog",
-        "in progress",
-        "completed",
-        "review",
-      ].includes(status)
-        ? status
-        : "backlog";
-
-      // Reset form
-
       setIsEditing(false);
-      updateTask(task._id, {
+      await updateTask(task._id, {
         detail,
-        tags: tags.split(",").map((tag) => tag.trim()),
-        status: validStatus,
+        tags,
+        status,
       });
     } catch (error) {
-      setError(error.message || "Failed to add task");
-    } finally {
-      setIsLoading(false);
+      console.error("Failed to update task:", error);
     }
   };
 
   return (
-    <div className="bg-gradient-to-br from-[#1a1a1a8c]  to-[#292727] rounded-xl p-2 flex flex-col gap-2 text-[15px] w-full group relative">
+    <div className="bg-gradient-to-br from-[#1a1a1a8c] to-[#292727] rounded-xl p-2 flex flex-col gap-2 text-[15px] w-full group relative">
       {isEditing ? (
-        <form onSubmit={(e) => handleSubmit(e)} className="flex flex-col">
+        <form
+          ref={editFormRef} // Attach ref to the edit form
+          onSubmit={handleSubmit}
+          className="flex flex-col"
+        >
           <label className="text-xs text-gray-200 pb-1">Task detail</label>
-
           <textarea
             type="text"
             className="bg-grayt text-sm border p-1 px-2 rounded-lg border-[#4a4d52] mb-3 focus:outline-none resize-none h-28"
-            // autoFocus
-            // onBlur={() => setIsEditing(false)}
+            autoFocus
             value={detail}
             onChange={(e) => setDetail(e.target.value)}
-            aria-label="Task tags"
+            aria-label="Task detail"
           />
-          <label className="text-xs text-gray-200 pb-1">status</label>
-
-          <input
-            type="text"
-            placeholder="status"
+          <label className="text-xs text-gray-200 pb-1">Status</label>
+          <select
             className="bg-grayt text-sm border p-1 px-2 rounded-lg border-[#4a4d52] mb-3 focus:outline-none"
             value={status}
             onChange={(e) => setStatus(e.target.value)}
-          />
+          >
+            <option value="backlog">Backlog</option>
+            <option value="in progress">In Progress</option>
+            <option value="review">Review</option>
+            <option value="completed">Completed</option>
+          </select>
           <label className="text-xs text-gray-200 pb-1">Tag</label>
           <input
             type="text"
@@ -91,18 +96,16 @@ export default function Task({ task }) {
         </form>
       ) : (
         <>
-          <div className="text-[#e4e6e9] ">{task.detail}</div>
+          <div className="text-[#e4e6e9]">{task.detail}</div>
           <div className="flex gap-3">
-            {task.tags.map((tag, index) => (
-              <div
-                key={index}
-                className=" text-white px-2 rounded-[3px]  capitalize text-sm py-[1px] bg-[#2a2a2a]"
-              >
-                #{tag}
-              </div>
-            ))}
+            <div className="text-white px-2 rounded-[3px] capitalize text-sm py-[1px] bg-[#2a2a2a]">
+              # {task.tags}
+            </div>
           </div>
-          <div className="hidden group-hover:flex gap-2 absolute right-2 bottom-2">
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="hidden group-hover:flex gap-2 absolute right-2 bottom-2"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="15"

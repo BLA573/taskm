@@ -14,14 +14,16 @@ export default function SideBar() {
 
   return (
     <div
-      className={`bg-[#1a1a1a] h-screen w-[250px] flex flex-col justify-between py-2 px-[10px] ${
+      className={`bg-[#1a1a1a] h-screen w-[250px] flex flex-col justify-between pb-2 pt-8 px-[10px] ${
         colaps && " w-[60px] "
       } relative`}
     >
       {addBoard && <AddBoard setAddboard={setAddboard} />}
       <div className={`flex flex-col gap-4  ${colaps && "items-center"}`}>
         <h1 className="text-xl text-white flex items-center justify-between gap-2 h-10 mb-4">
-          <div className={`flex items-center gap-2 pl-2 ${colaps && "pl-0"}`}>
+          <div
+            className={`flex items-center gap-2 ${colaps ? "pl-0" : "pl-2"}`}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -32,7 +34,7 @@ export default function SideBar() {
             >
               <path d="M6 3h2v2H6zm2 16h3v2H8zm8-16h2v2h-2zm-3 16h3v2h-3zm7-8V9h-2V7h-2V5h-2v2h-4V5H8v2H6v2H4v2H2v8h2v-4h2v4h2v-3h8v3h2v-4h2v4h2v-8zm-10 1H8V9h2zm6 0h-2V9h2z"></path>
             </svg>
-            <span className={`${colaps && "hidden"} text-base `}>Task App</span>
+            <span className={`${colaps && "hidden"} text-xl `}>Task App</span>
           </div>
         </h1>
         <SidebarList
@@ -41,7 +43,7 @@ export default function SideBar() {
           addBoard={addBoard}
         />
       </div>
-      <div className="bg-[#2a2a2a] p-1 rounded-lg flex justify-center text-sm w-full border border-[#8d939c]">
+      <div className="bg-[#2a2a2a] p-1 rounded-lg flex justify-center text-sm w-full border border-[#454546]">
         <button
           className={`bg-[#1a1a1a] w-1/2 ${
             colaps && "w-10"

@@ -41,7 +41,7 @@ export default function SidebarList({ colaps, setAddboard, addBoard }) {
           <div
             key={index}
             className={`flex items-center gap-2 relative p-[9px] ${
-              index === selected ? "bg-[#282640]  " : " "
+              index === selected ? "bg-[#2a2a2a]  " : " "
             } cursor-pointer rounded-[4px] mx-2 ${colaps && "mx-0"}`}
             onClick={() => handleSelectedBoaed(b._id, index)}
           >
@@ -57,7 +57,7 @@ export default function SidebarList({ colaps, setAddboard, addBoard }) {
             </div>
             <div
               className={`absolute right-1 ${
-                index === selected ? "flex" : "hidden "
+                index === selected && !colaps ? "flex" : "hidden"
               }`}
               onClick={() => deleteBoard(b)}
             >

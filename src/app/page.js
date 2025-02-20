@@ -1,8 +1,8 @@
 "use client";
 import Task from "./component/task";
 import AddTask from "./component/AddTask";
-import { useState, useEffect } from "react";
-import { useUser } from "@/contexts/UserContext";
+import { useState, useEffect, useRef } from "react";
+// import { useUser } from "@/contexts/UserContext";
 import { useTasks } from "@/contexts/UseTask";
 import { useBoards } from "@/contexts/UseBoard";
 import SideBar from "./component/SideBar";
@@ -16,6 +16,27 @@ export default function Home() {
   const [colapsProgress, setColapsProgress] = useState(false);
   const [colapsReview, setColapsReview] = useState(false);
   const [colapsCompleted, setColapsCompleted] = useState(false);
+
+  const addTaskFormRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        addTaskFormRef.current &&
+        !addTaskFormRef.current.contains(event.target)
+      ) {
+        setAddTask(0); // Close the AddTask form
+      }
+    };
+
+    // Add event listener when the component mounts
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleAddTaskClick = (num) => {
     setColapsBacklog(false);
@@ -34,7 +55,7 @@ export default function Home() {
       <SideBar />
       <div className="h-screen w-full bg-[#2a2a2a] overflow-y-scroll ">
         <div className="bg-[#2a2a2a] w-full text-white break-word grid grid-cols-1 min-[666px]:grid-cols-2 min-[920px]:grid-cols-3 min-[1150px]:grid-cols-4 py-5 items-start gap-y-5">
-          <div className="flex flex-col items-center gap-2 max-w-[260px] w-full mx-auto border border-gray-700 rounded-2xl p-2">
+          <div className="flex flex-col items-center gap-2 max-w-[260px] w-full mx-auto border border-[#454546] rounded-2xl p-2">
             <div className="flex items-center justify-between w-full border-b border-gray-400 p-3">
               <div className="flex items-center gap-3">
                 <svg
@@ -51,7 +72,7 @@ export default function Home() {
                   <path d="m4.431 12.822 13 9A1 1 0 0 0 19 21V3a1 1 0 0 0-1.569-.823l-13 9a1.003 1.003 0 0 0 0 1.645z"></path>
                 </svg>
                 <div className="flex items-center gap-2">
-                  <div className="h-3 w-3 rounded-full bg-red-500 shadow-[0_0_8px_2px_rgba(239,68,68,0.7)]"></div>
+                  <div className="h-3 w-3 rounded-full bg-red-500 shadow-[0_0_4px_1px_rgba(239,68,68,0.7)]"></div>
 
                   <h1>BackLog </h1>
                 </div>
@@ -70,7 +91,9 @@ export default function Home() {
             </div>
             <div>
               {addTask == 1 && !colapsBacklog && (
-                <AddTask setAddTask={setAddTask} status={"backlog"} />
+                <div ref={addTaskFormRef}>
+                  <AddTask setAddTask={setAddTask} status={"backlog"} />
+                </div>
               )}
             </div>
             {tasks &&
@@ -90,7 +113,7 @@ export default function Home() {
                 return null; // If task status is not "backlog", return nothing
               })}
           </div>
-          <div className="flex flex-col items-center gap-2 max-w-[260px] w-full mx-auto border border-gray-700 rounded-2xl p-2 ">
+          <div className="flex flex-col items-center gap-2 max-w-[260px] w-full mx-auto border border-[#454546] rounded-2xl p-2 ">
             <div className="flex items-center justify-between w-full border-b border-gray-400 p-3">
               <div className="flex items-center gap-3">
                 <svg
@@ -107,7 +130,7 @@ export default function Home() {
                   <path d="m4.431 12.822 13 9A1 1 0 0 0 19 21V3a1 1 0 0 0-1.569-.823l-13 9a1.003 1.003 0 0 0 0 1.645z"></path>
                 </svg>
                 <div className="flex items-center gap-2">
-                  <div className="h-3 w-3 rounded-full bg-yellow-500 shadow-[0_0_8px_1px_rgba(253,224,71,0.8)]"></div>
+                  <div className="h-3 w-3 rounded-full bg-yellow-300 shadow-[0_0_4px_1px_rgba(253,224,71,0.8)]"></div>
 
                   <h1>In Progress </h1>
                 </div>
@@ -125,7 +148,9 @@ export default function Home() {
             </div>
             <div>
               {addTask == 2 && !colapsProgress && (
-                <AddTask setAddTask={setAddTask} status={"in progress"} />
+                <div ref={addTaskFormRef}>
+                  <AddTask setAddTask={setAddTask} status={"in progress"} />
+                </div>
               )}
             </div>
             {tasks &&
@@ -146,7 +171,7 @@ export default function Home() {
                 return null; // If task status is not "backlog", return nothing
               })}
           </div>
-          <div className="flex flex-col items-center gap-2 max-w-[260px] w-full mx-auto border border-gray-700 rounded-2xl p-2 ">
+          <div className="flex flex-col items-center gap-2 max-w-[260px] w-full mx-auto border border-[#454546] rounded-2xl p-2 ">
             <div className="flex items-center justify-between w-full border-b border-gray-400 p-3">
               <div className="flex items-center gap-3">
                 <svg
@@ -163,7 +188,7 @@ export default function Home() {
                   <path d="m4.431 12.822 13 9A1 1 0 0 0 19 21V3a1 1 0 0 0-1.569-.823l-13 9a1.003 1.003 0 0 0 0 1.645z"></path>
                 </svg>
                 <div className="flex items-center gap-3 ">
-                  <div className="h-3 w-3 rounded-full bg-blue-500 shadow-[0_0_8px_2px_rgba(59,130,246,0.7)] "></div>
+                  <div className="h-3 w-3 rounded-full bg-blue-500 shadow-[0_0_4px_1px_rgba(59,130,246,0.7)] "></div>
                   <h1>In Review</h1>{" "}
                 </div>
               </div>
@@ -180,7 +205,9 @@ export default function Home() {
             </div>
             <div>
               {addTask == 3 && !colapsReview && (
-                <AddTask setAddTask={setAddTask} status={"review"} />
+                <div ref={addTaskFormRef}>
+                  <AddTask setAddTask={setAddTask} status={"review"} />
+                </div>
               )}
             </div>
 
@@ -202,7 +229,7 @@ export default function Home() {
                 return null; // If task status is not "backlog", return nothing
               })}
           </div>
-          <div className="flex flex-col items-center gap-2 max-w-[260px] w-full mx-auto border border-gray-700 rounded-2xl p-2 ">
+          <div className="flex flex-col items-center gap-2 max-w-[260px] w-full mx-auto border border-[#454546] rounded-2xl p-2 ">
             <div className="flex items-center justify-between w-full border-b border-gray-400 p-3">
               <div className="flex items-center gap-3">
                 <svg
@@ -219,7 +246,7 @@ export default function Home() {
                   <path d="m4.431 12.822 13 9A1 1 0 0 0 19 21V3a1 1 0 0 0-1.569-.823l-13 9a1.003 1.003 0 0 0 0 1.645z"></path>
                 </svg>
                 <div className="flex items-center gap-2">
-                  <div className="h-3 w-3 rounded-full bg-green-500 shadow-[0_0_8px_2px_rgba(34,197,94,0.7)]"></div>
+                  <div className="h-3 w-3 rounded-full bg-green-500 shadow-[0_0_4px_1px_rgba(34,197,94,0.7)]"></div>
                   <h1>Completed</h1>
                 </div>
               </div>
@@ -236,7 +263,9 @@ export default function Home() {
             </div>
             <div>
               {addTask == 4 && !colapsCompleted && (
-                <AddTask setAddTask={setAddTask} status={"completed"} />
+                <div ref={addTaskFormRef}>
+                  <AddTask setAddTask={setAddTask} status={"completed"} />
+                </div>
               )}
             </div>
             {tasks &&
