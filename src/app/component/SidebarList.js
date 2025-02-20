@@ -4,7 +4,7 @@ import { useBoards } from "@/contexts/UseBoard";
 
 export default function SidebarList({ colaps, setAddboard, addBoard }) {
   const [selected, setSelected] = useState(0);
-  const { boards, setSelectedBoard } = useBoards();
+  const { boards, setSelectedBoard, deleteBoard } = useBoards();
 
   const handleClick = () => {
     setAddboard(!addBoard);
@@ -14,14 +14,6 @@ export default function SidebarList({ colaps, setAddboard, addBoard }) {
     setSelectedBoard(id);
     setSelected(index);
   };
-
-  const color = new Map();
-
-  color.set(0, "lightpink");
-  color.set(1, "#c896fb");
-  color.set(2, "lightyellow");
-  color.set(3, "#c3dafa");
-  color.set(4, "lightgreen");
 
   return (
     <div
@@ -48,8 +40,8 @@ export default function SidebarList({ colaps, setAddboard, addBoard }) {
         boards.map((b, index) => (
           <div
             key={index}
-            className={`flex items-center gap-2  p-[9px] ${
-              index === selected ? "bg-[#282640] " : " "
+            className={`flex items-center gap-2 relative p-[9px] ${
+              index === selected ? "bg-[#282640]  " : " "
             } cursor-pointer rounded-[4px] mx-2 ${colaps && "mx-0"}`}
             onClick={() => handleSelectedBoaed(b._id, index)}
           >
@@ -62,6 +54,23 @@ export default function SidebarList({ colaps, setAddboard, addBoard }) {
               } capitalize`}
             >
               {b.name.split(" ")[0].slice(0, 12)}
+            </div>
+            <div
+              className={`absolute right-1 ${
+                index === selected ? "flex" : "hidden "
+              }`}
+              onClick={() => deleteBoard(b)}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="white"
+              >
+                <path d="M5 20a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8h2V6h-4V4a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v2H3v2h2zM9 4h6v2H9zM8 8h9v12H7V8z"></path>
+                <path d="M9 10h2v8H9zm4 0h2v8h-2z"></path>
+              </svg>
             </div>
           </div>
         ))}

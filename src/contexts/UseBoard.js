@@ -26,6 +26,22 @@ export function BoardProvider({ children }) {
     }
   };
 
+  const deleteBoard = async (boardToBeDeleted) => {
+    // Optimistically remove the task from the UI
+    const newBoard = boards.filter(
+      (board) => board._id !== boardToBeDeleted._id
+    );
+    setBoards(newBoard);
+
+    try {
+      await axios.delete(`/api/board/${boardToBeDeleted._id}`);
+    } catch (error) {
+      console.error("Error deleting board:", error);
+      // Rollback to previous state in case of error
+      setBoards([boardToBeDeleted, ...newBoard]);
+    }
+  };
+
   const fetchBoards = async () => {
     try {
       const response = await axios.get(
@@ -49,14 +65,9 @@ export function BoardProvider({ children }) {
     fetchBoards();
   }, []);
 
-  useEffect(() => {
-    console.log("selected boards", selectedBoard);
-    console.log("boards: ", boards);
-  }, [selectedBoard, boards]);
-
   return (
     <BoardContext.Provider
-      value={{ boards, addBoard, selectedBoard, setSelectedBoard }}
+      value={{ boards, addBoard, selectedBoard, setSelectedBoard, deleteBoard }}
     >
       {children}
     </BoardContext.Provider>

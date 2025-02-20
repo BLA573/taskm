@@ -14,7 +14,7 @@ export default function SideBar() {
 
   return (
     <div
-      className={`bg-[#1a1728] h-screen w-[250px] flex flex-col justify-between py-2 px-[10px] ${
+      className={`bg-[#1a1a1a] h-screen w-[250px] flex flex-col justify-between py-2 px-[10px] ${
         colaps && " w-[60px] "
       } relative`}
     >
@@ -41,9 +41,9 @@ export default function SideBar() {
           addBoard={addBoard}
         />
       </div>
-      <div className="bg-[#1a1728] p-1 rounded-lg flex justify-center text-sm w-full border border-[#8d939c]">
+      <div className="bg-[#2a2a2a] p-1 rounded-lg flex justify-center text-sm w-full border border-[#8d939c]">
         <button
-          className={`bg-[#282640] w-1/2 ${
+          className={`bg-[#1a1a1a] w-1/2 ${
             colaps && "w-10"
           } py-[6px]  rounded-md text-white flex justify-center gap-[6px] items-center`}
         >

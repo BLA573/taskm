@@ -4,19 +4,14 @@ import { useTasks } from "@/contexts/UseTask";
 import { useBoards } from "@/contexts/UseBoard";
 import { useState } from "react";
 
-export default function AddTask({ setAddTask }) {
+export default function AddTask({ setAddTask, status }) {
   const { addTask } = useTasks();
   const { selectedBoard } = useBoards();
   const [tags, setTags] = useState("");
   const [detail, setDetail] = useState("");
-  const [status, setStatus] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const user_id = "67ae21f887d160200ffb14c8";
-
-  const handleClick = () => {
-    setAddTask(false);
-  };
 
   const handleSubmit = async () => {
     // e.preventDefault();
@@ -36,7 +31,6 @@ export default function AddTask({ setAddTask }) {
       // Reset form
       setDetail("");
       setTags("");
-      setStatus("");
       setAddTask(false);
       addTask({
         detail,
@@ -53,63 +47,23 @@ export default function AddTask({ setAddTask }) {
   };
 
   return (
-    <div className="absolute bg-[#2E2B44] w-72 rounded-xl border-4 border-[#4d373c] overflow-y-auto z-30 p-1">
+    <div className=" bg-gradient-to-br from-[#1a1a1a8c]  to-[#2a2a2a] rounded-xl p-2 flex flex-col gap-2 text-[15px] w-full">
       <form action={handleSubmit} className="flex flex-col p-2">
-        <div className="flex justify-between pb-7">
-          <h1 className="text-white text-sm">Task</h1>
-          <button
-            type="button"
-            onClick={handleClick}
-            aria-label="Close add task form"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              style={{
-                fill: "white",
-                transform: "rotate(45deg)",
-                cursor: "pointer",
-              }}
-            >
-              <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"></path>
-            </svg>
-          </button>
-        </div>
-
         <label className="text-xs text-gray-200 pb-2">Task detail</label>
         <input
           type="text"
           placeholder="Design my portfolio website"
-          className="bg-grayt text-white text-sm border p-1 px-2 rounded-lg border-[#4a4d52] mb-4 focus:outline-none"
+          className="bg-grayt text-white text-sm border p-1 px-2 rounded-lg border-[#4a4d52] mb-3 focus:outline-none"
           value={detail}
           required
           onChange={(e) => setDetail(e.target.value)}
           aria-label="Task detail"
         />
-
-        <label className="text-xs text-gray-200 pb-2">Status</label>
-        <select
-          value={status}
-          onChange={(e) => setStatus(e.target.value)}
-          className="bg-grayt text-sm border p-1 px-2 rounded-lg border-[#4a4d52] mb-4 focus:outline-none"
-          aria-label="Task status"
-        >
-          <option value="" disabled>
-            Select status
-          </option>
-          <option value="backlog">Backlog</option>
-          <option value="in progress">In Progress</option>
-          <option value="review">Review</option>
-          <option value="completed">Completed</option>
-        </select>
-
         <label className="text-xs text-gray-200 pb-2">Tag</label>
         <input
           type="text"
           placeholder="Design, UI, Portfolio"
-          className="bg-grayt text-sm border p-1 px-2 rounded-lg border-[#4a4d52] mb-4 focus:outline-none"
+          className="bg-grayt text-sm border p-1 px-2 rounded-lg border-[#4a4d52] mb-3 focus:outline-none"
           value={tags}
           onChange={(e) => setTags(e.target.value)}
           aria-label="Task tags"
@@ -117,7 +71,7 @@ export default function AddTask({ setAddTask }) {
 
         <button
           type="submit"
-          className="text-sm bg-orange-400 px-3 py-1 rounded-2xl flex items-center justify-center shadow-lg gap-2 mt-2"
+          className="text-sm bg-[#1a1a1a] px-3 py-1 rounded-2xl flex items-center justify-center shadow-lg gap-2 mt-1"
         >
           {isLoading ? "Saving..." : "Save"}
           {!isLoading && (

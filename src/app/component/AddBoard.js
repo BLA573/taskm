@@ -86,14 +86,7 @@ export default function AddBoard({ setAddboard }) {
   ]);
   const [boardEmoji, setBoardEmoji] = useState(emoji[0]);
 
-  const color = new Map();
   const user_id = "67ae21f887d160200ffb14c8";
-
-  color.set(0, "lightpink");
-  color.set(1, "#c896fb");
-  color.set(2, "lightyellow");
-  color.set(3, "#c3dafa");
-  color.set(4, "lightgreen");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -105,9 +98,8 @@ export default function AddBoard({ setAddboard }) {
     });
   };
 
-  // left-10 bottom-8
   return (
-    <div className="absolute top-[120px] left-[calc(100%-15px)]   bg-[#2E2B44] w-80 rounded-xl border-4 border-[#4d373c] z-10 p-1">
+    <div className="absolute top-[120px] left-[calc(100%-15px)]   bg-[#1a1a1a] w-80 rounded-xl border-4 border-[#4d373c] z-10 p-1">
       <form onSubmit={handleSubmit} className="flex flex-col p-2">
         <div className="flex justify-between pb-7 ">
           <h1 className="text-white text-sm">New Board</h1>
