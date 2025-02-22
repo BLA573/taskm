@@ -7,17 +7,18 @@ import { redirect } from "next/navigation";
 export default function LoginSignupForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const { login, user } = useUser();
+  const { signup, user } = useUser();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
     // Validate inputs
-    if (!username || !password) {
-      setError("missing field");
+    if (!name || !username || !password) {
+      setError("missing filed");
       return;
     }
 
@@ -26,17 +27,13 @@ export default function LoginSignupForm() {
 
     try {
       // Call the signup function from the UserContext
-      await login({ username, password });
+      await signup({ username, password, name });
 
       // If signup is successful, redirect to the home page
       redirect("/");
     } catch (error) {
       // Handle errors from the signup function
-      setError(
-        error.response?.data?.message || // Check for a specific error message
-          error.message || // Fallback to the error's default message
-          "An unexpected error occurred" // Generic fallback message
-      );
+      setError(error || "error");
     } finally {
       // Reset loading state
       setLoading(false);
@@ -47,7 +44,7 @@ export default function LoginSignupForm() {
   }
 
   return (
-    <div className="h-screen flex justify-center items-center bg-[#1a1a1a]">
+    <div className="h-screen flex justify-center items-center bg-[#1a1a1a] ">
       <form
         onSubmit={(e) => handleSubmit(e)}
         className={`w-[300px] h-[400px] bg-[#2a2a2a] rounded-3xl flex flex-col items-center justify-between py-8`}
@@ -62,7 +59,16 @@ export default function LoginSignupForm() {
           >
             <path d="M6 3h2v2H6zm2 16h3v2H8zm8-16h2v2h-2zm-3 16h3v2h-3zm7-8V9h-2V7h-2V5h-2v2h-4V5H8v2H6v2H4v2H2v8h2v-4h2v4h2v-3h8v3h2v-4h2v4h2v-8zm-10 1H8V9h2zm6 0h-2V9h2z"></path>
           </svg>
-          <h1 className=" text-white text-2xl mb-10 mt-1">Task App</h1>
+
+          <h1 className=" text-white text-2xl mb-5 mt-1">Task App</h1>
+          <input
+            type="text"
+            className=" bg-[#3a3939] py-2 rounded-lg px-3 text-sm w-60 text-white outline-none mb-4"
+            placeholder="name"
+            required
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          ></input>
           <input
             type="text"
             className=" bg-[#3a3939] py-2 rounded-lg px-3 text-sm w-60 text-white outline-none mb-4"
@@ -75,8 +81,8 @@ export default function LoginSignupForm() {
             type="password"
             className=" bg-[#3a3939] py-2 rounded-lg px-3 text-sm w-60 text-white outline-none mb-2"
             placeholder="password"
-            required
             value={password}
+            required
             onChange={(e) => setPassword(e.target.value)}
           ></input>
           {error && (
@@ -88,9 +94,9 @@ export default function LoginSignupForm() {
         <div className="flex flex-col items-center">
           <button
             type="submit"
-            className="bg-[#201f1f] py-2 rounded-2xl text-sm w-60 text-white flex justify-center items-center gap-2 "
+            className="bg-[#201f1f] py-2 rounded-2xl text-sm w-60 text-white flex gap-2 justify-center items-center "
           >
-            Login
+            Sign Up
             {loading && (
               <div className="flex items-center justify-center">
                 <div className="animate-spin rounded-full h-3 w-3 border-t-2 border-red-500"></div>
@@ -98,9 +104,9 @@ export default function LoginSignupForm() {
             )}
           </button>
           <p className="text-xs text-white mt-3">
-            Don't have an account?{" "}
-            <Link className=" underline mx-1" href={"/signup"}>
-              Sign Up
+            Already have an account?{" "}
+            <Link className=" underline mx-1" href={"/login"}>
+              Login
             </Link>
           </p>
         </div>

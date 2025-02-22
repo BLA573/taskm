@@ -2,14 +2,15 @@
 import Task from "./component/task";
 import AddTask from "./component/AddTask";
 import { useState, useEffect, useRef } from "react";
-// import { useUser } from "@/contexts/UserContext";
+import { useUser } from "@/contexts/UserContext";
 import { useTasks } from "@/contexts/UseTask";
 import { useBoards } from "@/contexts/UseBoard";
 import SideBar from "./component/SideBar";
+import { redirect } from "next/navigation";
 
 export default function Home() {
   const [addTask, setAddTask] = useState(0);
-  //const { user, loading } = useUser();
+  const { user } = useUser();
   const { tasks } = useTasks();
   const { selectedBoard } = useBoards();
   const [colapsBacklog, setColapsBacklog] = useState(false);
@@ -47,10 +48,14 @@ export default function Home() {
     setAddTask(num);
   };
 
+  if (!user && user === null) {
+    redirect("/login");
+  }
+
   return (
     <div
       onClick={(e) => e.stopPropagation()}
-      className="flex overflow-x-hidden "
+      className="flex overflow-x-hidden pl-[60px] min-[500px]:pl-0 "
     >
       <SideBar />
       <div className="h-screen w-full bg-[#2a2a2a] overflow-y-scroll ">

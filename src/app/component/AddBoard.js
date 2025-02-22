@@ -2,14 +2,13 @@
 
 import { useState } from "react";
 import { useBoards } from "@/contexts/UseBoard";
+import { useUser } from "@/contexts/UserContext";
 
-export default function AddBoard({ setAddboard }) {
+export default function AddBoard({ setIsAdding }) {
   const [boardName, setBoardName] = useState("");
   const { addBoard } = useBoards();
+  const { user } = useUser();
 
-  const handleClick = () => {
-    setAddboard(false);
-  };
   const [emoji, setEmoji] = useState([
     ` <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -86,39 +85,21 @@ export default function AddBoard({ setAddboard }) {
   ]);
   const [boardEmoji, setBoardEmoji] = useState(emoji[0]);
 
-  const user_id = "67ae21f887d160200ffb14c8";
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    setAddboard(false);
+    setIsAdding(false);
     addBoard({
       name: boardName,
       emoji: boardEmoji,
-      user_id,
+      user_id: user.id,
     });
   };
 
   return (
-    <div className="absolute top-[120px] left-[calc(100%-15px)]   bg-[#1a1a1a] w-80 rounded-xl border-4 border-[#4d373c] z-10 p-1">
-      <form onSubmit={handleSubmit} className="flex flex-col p-2">
-        <div className="flex justify-between pb-7 ">
-          <h1 className="text-white text-sm">New Board</h1>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            style={{
-              fill: "white",
-              transform: "rotate(45deg)",
-              cursor: "pointer",
-            }}
-            onClick={handleClick}
-          >
-            <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"></path>
-          </svg>
-        </div>
-        <label className="text-xs text-gray-200 pb-2">Board name</label>
+    <div className="bg-[#2a2a2a] rounded-lg p-2 flex flex-col gap-2 text-[15px] m-2 ">
+      <form onSubmit={handleSubmit} className="flex flex-col">
+        <label className="text-xs text-gray-200 pb-2">Board Name</label>
+
         <input
           type="text"
           placeholder="e.g Design board"
@@ -128,19 +109,19 @@ export default function AddBoard({ setAddboard }) {
           className="bg-grayt text-white text-sm border p-1 px-2 rounded-lg border-[#4a4d52] mb-4 focus:outline-none"
         />
         <label className="text-xs text-gray-200 pb-2">Icons</label>
-        <div className="flex gap-x-4 gap-y-2 flex-wrap mb-5">
+        <div className="flex gap-x-2 gap-y-2 flex-wrap mb-2 justify-around">
           {emoji.map((e, i) => (
             <div
               key={i}
-              className={`h-7 w-7 rounded-full flex justify-center items-center text-[10px]`}
+              className={`h-7 w-7 flex justify-center items-center text-[10px]`}
               onClick={() => setBoardEmoji(emoji[i])}
             >
               <div dangerouslySetInnerHTML={{ __html: e }} />
             </div>
           ))}
         </div>
-        <button className="text-sm text-white bg-orange-400 px-3 py-1 rounded-md flex items-center justify-center gap-2 shadow-lg">
-          Create board
+        <button className="text-sm text-white bg-[#1a1a1a] px-3 py-1 rounded-2xl flex items-center justify-center shadow-lg gap-2 mt-1">
+          Create
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"

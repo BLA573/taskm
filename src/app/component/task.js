@@ -39,7 +39,7 @@ export default function Task({ task }) {
         status,
       });
     } catch (error) {
-      console.error("Failed to update task:", error);
+      console.error("Failed to update task:");
     }
   };
 

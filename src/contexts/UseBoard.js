@@ -1,12 +1,14 @@
 "use client";
 import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
+import { useUser } from "@/contexts/UserContext";
 
 const BoardContext = createContext();
 
 export function BoardProvider({ children }) {
   const [boards, setBoards] = useState([]);
   const [selectedBoard, setSelectedBoard] = useState(boards[0] || "");
+  const { user } = useUser();
 
   const addBoard = async (newBoard) => {
     const optimisticBoard = { ...newBoard, _id: "101" };
@@ -22,7 +24,7 @@ export function BoardProvider({ children }) {
       setSelectedBoard(savedBoard._id);
     } catch (error) {
       setBoards(boards.filter((board) => board._id != "101"));
-      console.log("Error adding board:", error);
+      // console.log("Error adding board:", error);
     }
   };
 
@@ -36,34 +38,32 @@ export function BoardProvider({ children }) {
     try {
       await axios.delete(`/api/board/${boardToBeDeleted._id}`);
     } catch (error) {
-      console.error("Error deleting board:", error);
+      // console.log("Error deleting board:", error);
       // Rollback to previous state in case of error
       setBoards([boardToBeDeleted, ...newBoard]);
     }
   };
 
   const fetchBoards = async () => {
-    try {
-      const response = await axios.get(
-        "/api/board?userId=67ae21f887d160200ffb14c8",
-        {
+    if (user) {
+      try {
+        const response = await axios.get(`/api/board?userId=${user.id}`, {
           headers: {
             "Content-Type": "application/json",
           },
-        }
-      );
-
-      const fetchedBoards = response.data;
-      setBoards(fetchedBoards);
-      setSelectedBoard(fetchedBoards[0]._id);
-    } catch (error) {
-      console.log("Error fetching boards:", error);
+        });
+        const fetchedBoards = response.data;
+        setBoards(fetchedBoards);
+        setSelectedBoard(fetchedBoards[0]._id);
+      } catch (error) {
+        // console.log(error.response.data.message);
+      }
     }
   };
 
   useEffect(() => {
     fetchBoards();
-  }, []);
+  }, [user]);
 
   return (
     <BoardContext.Provider

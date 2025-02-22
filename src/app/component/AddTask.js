@@ -3,6 +3,7 @@
 import { useTasks } from "@/contexts/UseTask";
 import { useBoards } from "@/contexts/UseBoard";
 import { useState } from "react";
+import { useUser } from "@/contexts/UserContext";
 
 export default function AddTask({ setAddTask, status }) {
   const { addTask } = useTasks();
@@ -11,7 +12,7 @@ export default function AddTask({ setAddTask, status }) {
   const [detail, setDetail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const user_id = "67ae21f887d160200ffb14c8";
+  const { user } = useUser();
 
   const handleSubmit = async () => {
     // e.preventDefault();
@@ -34,10 +35,10 @@ export default function AddTask({ setAddTask, status }) {
       setAddTask(false);
       addTask({
         detail,
-        tags: tags.split(",").map((tag) => tag.trim()),
+        tags: tags,
         status: validStatus,
         board_Id: selectedBoard,
-        user_id,
+        user_id: user.id,
       });
     } catch (error) {
       setError(error.message || "Failed to add task");

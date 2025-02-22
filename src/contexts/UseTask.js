@@ -1,11 +1,13 @@
 "use client";
 import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
+import { useUser } from "@/contexts/UserContext";
 
 const TaskContext = createContext();
 
 export function TaskProvider({ children }) {
   const [tasks, setTasks] = useState([]);
+  const { user } = useUser();
 
   const addTask = async (newTask) => {
     const optimisticTask = { ...newTask, _id: "101" };
@@ -62,17 +64,16 @@ export function TaskProvider({ children }) {
 
   const fetchTasks = async () => {
     try {
-      const response = await axios.get(
-        "/api/task?userId=67ae21f887d160200ffb14c8",
-        {
+      if (user) {
+        const response = await axios.get(`/api/task?userId=${user.id}`, {
           headers: {
             "Content-Type": "application/json",
           },
-        }
-      );
+        });
 
-      const fetchedTasks = response.data;
-      setTasks(fetchedTasks); // Update tasks with fetched data
+        const fetchedTasks = response.data;
+        setTasks(fetchedTasks); // Update tasks with fetched data
+      }
     } catch (error) {
       console.log("Error fetching tasks:", error);
     }
@@ -80,7 +81,7 @@ export function TaskProvider({ children }) {
 
   useEffect(() => {
     fetchTasks();
-  }, []);
+  }, [user]);
 
   return (
     <TaskContext.Provider value={{ tasks, addTask, deleteTask, updateTask }}>
