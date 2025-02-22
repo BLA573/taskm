@@ -58,241 +58,247 @@ export default function Home() {
       className="flex overflow-x-hidden pl-[60px] min-[500px]:pl-0 "
     >
       <SideBar />
-      <div className="h-screen w-full bg-[#2a2a2a] overflow-y-scroll ">
-        <div className="bg-[#2a2a2a] w-full text-white break-word grid grid-cols-1 min-[666px]:grid-cols-2 min-[920px]:grid-cols-3 min-[1150px]:grid-cols-4 py-5 items-start gap-y-5">
-          <div className="flex flex-col items-center gap-2 max-w-[260px] w-full mx-auto border border-[#454546] rounded-2xl p-2">
-            <div className="flex items-center justify-between w-full border-b border-gray-400 p-3">
-              <div className="flex items-center gap-3">
+      {selectedBoard ? (
+        <div className="h-screen w-full bg-[#2a2a2a] overflow-y-scroll ">
+          <div className="bg-[#2a2a2a] w-full text-white break-word grid grid-cols-1 min-[666px]:grid-cols-2 min-[920px]:grid-cols-3 min-[1150px]:grid-cols-4 py-5 items-start gap-y-5">
+            <div className="flex flex-col items-center gap-2 max-w-[260px] w-full mx-auto border border-[#454546] rounded-2xl p-2">
+              <div className="flex items-center justify-between w-full border-b border-gray-400 p-3">
+                <div className="flex items-center gap-3">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="10"
+                    height="10"
+                    viewBox="0 0 24 24"
+                    fill="white"
+                    style={{
+                      transform: `rotate(${colapsBacklog ? 180 : 270}deg)`,
+                    }}
+                    onClick={() => setColapsBacklog(!colapsBacklog)}
+                  >
+                    <path d="m4.431 12.822 13 9A1 1 0 0 0 19 21V3a1 1 0 0 0-1.569-.823l-13 9a1.003 1.003 0 0 0 0 1.645z"></path>
+                  </svg>
+                  <div className="flex items-center gap-2">
+                    <div className="h-3 w-3 rounded-full bg-red-500 shadow-[0_0_4px_1px_rgba(239,68,68,0.7)]"></div>
+
+                    <h1>BackLog </h1>
+                  </div>
+                </div>
+
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="10"
-                  height="10"
+                  width="20"
+                  height="20"
                   viewBox="0 0 24 24"
-                  fill="white"
-                  style={{
-                    transform: `rotate(${colapsBacklog ? 180 : 270}deg)`,
-                  }}
-                  onClick={() => setColapsBacklog(!colapsBacklog)}
+                  style={{ fill: "white" }}
+                  onClick={() => handleAddTaskClick(1)}
                 >
-                  <path d="m4.431 12.822 13 9A1 1 0 0 0 19 21V3a1 1 0 0 0-1.569-.823l-13 9a1.003 1.003 0 0 0 0 1.645z"></path>
+                  <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"></path>
                 </svg>
-                <div className="flex items-center gap-2">
-                  <div className="h-3 w-3 rounded-full bg-red-500 shadow-[0_0_4px_1px_rgba(239,68,68,0.7)]"></div>
-
-                  <h1>BackLog </h1>
-                </div>
               </div>
+              <div>
+                {addTask == 1 && !colapsBacklog && (
+                  <div ref={addTaskFormRef}>
+                    <AddTask setAddTask={setAddTask} status={"backlog"} />
+                  </div>
+                )}
+              </div>
+              {tasks &&
+                selectedBoard &&
+                !colapsBacklog &&
+                tasks.map((task, index) => {
+                  if (
+                    task.status === "backlog" &&
+                    selectedBoard === task.board_Id
+                  ) {
+                    return (
+                      <div className="w-full" key={index}>
+                        <Task task={task} />
+                      </div>
+                    );
+                  }
+                  return null; // If task status is not "backlog", return nothing
+                })}
+            </div>
+            <div className="flex flex-col items-center gap-2 max-w-[260px] w-full mx-auto border border-[#454546] rounded-2xl p-2 ">
+              <div className="flex items-center justify-between w-full border-b border-gray-400 p-3">
+                <div className="flex items-center gap-3">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="10"
+                    height="10"
+                    viewBox="0 0 24 24"
+                    fill="white"
+                    style={{
+                      transform: `rotate(${colapsProgress ? 180 : 270}deg)`,
+                    }}
+                    onClick={() => setColapsProgress(!colapsProgress)}
+                  >
+                    <path d="m4.431 12.822 13 9A1 1 0 0 0 19 21V3a1 1 0 0 0-1.569-.823l-13 9a1.003 1.003 0 0 0 0 1.645z"></path>
+                  </svg>
+                  <div className="flex items-center gap-2">
+                    <div className="h-3 w-3 rounded-full bg-yellow-300 shadow-[0_0_4px_1px_rgba(253,224,71,0.8)]"></div>
 
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                style={{ fill: "white" }}
-                onClick={() => handleAddTaskClick(1)}
-              >
-                <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"></path>
-              </svg>
-            </div>
-            <div>
-              {addTask == 1 && !colapsBacklog && (
-                <div ref={addTaskFormRef}>
-                  <AddTask setAddTask={setAddTask} status={"backlog"} />
+                    <h1>In Progress </h1>
+                  </div>
                 </div>
-              )}
-            </div>
-            {tasks &&
-              selectedBoard &&
-              !colapsBacklog &&
-              tasks.map((task, index) => {
-                if (
-                  task.status === "backlog" &&
-                  selectedBoard === task.board_Id
-                ) {
-                  return (
-                    <div className="w-full" key={index}>
-                      <Task task={task} />
-                    </div>
-                  );
-                }
-                return null; // If task status is not "backlog", return nothing
-              })}
-          </div>
-          <div className="flex flex-col items-center gap-2 max-w-[260px] w-full mx-auto border border-[#454546] rounded-2xl p-2 ">
-            <div className="flex items-center justify-between w-full border-b border-gray-400 p-3">
-              <div className="flex items-center gap-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="10"
-                  height="10"
+                  width="20"
+                  height="20"
                   viewBox="0 0 24 24"
-                  fill="white"
-                  style={{
-                    transform: `rotate(${colapsProgress ? 180 : 270}deg)`,
-                  }}
-                  onClick={() => setColapsProgress(!colapsProgress)}
+                  style={{ fill: "white" }}
+                  onClick={() => handleAddTaskClick(2)}
                 >
-                  <path d="m4.431 12.822 13 9A1 1 0 0 0 19 21V3a1 1 0 0 0-1.569-.823l-13 9a1.003 1.003 0 0 0 0 1.645z"></path>
+                  <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"></path>
                 </svg>
-                <div className="flex items-center gap-2">
-                  <div className="h-3 w-3 rounded-full bg-yellow-300 shadow-[0_0_4px_1px_rgba(253,224,71,0.8)]"></div>
-
-                  <h1>In Progress </h1>
-                </div>
               </div>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                style={{ fill: "white" }}
-                onClick={() => handleAddTaskClick(2)}
-              >
-                <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"></path>
-              </svg>
+              <div>
+                {addTask == 2 && !colapsProgress && (
+                  <div ref={addTaskFormRef}>
+                    <AddTask setAddTask={setAddTask} status={"in progress"} />
+                  </div>
+                )}
+              </div>
+              {tasks &&
+                selectedBoard &&
+                !colapsProgress &&
+                tasks.map((task, index) => {
+                  if (
+                    task.status === "in progress" &&
+                    // selectedBoard === task.board_Id._id ||
+                    selectedBoard === task.board_Id
+                  ) {
+                    return (
+                      <div className="w-full" key={index}>
+                        <Task task={task} />
+                      </div>
+                    );
+                  }
+                  return null; // If task status is not "backlog", return nothing
+                })}
             </div>
-            <div>
-              {addTask == 2 && !colapsProgress && (
-                <div ref={addTaskFormRef}>
-                  <AddTask setAddTask={setAddTask} status={"in progress"} />
+            <div className="flex flex-col items-center gap-2 max-w-[260px] w-full mx-auto border border-[#454546] rounded-2xl p-2 ">
+              <div className="flex items-center justify-between w-full border-b border-gray-400 p-3">
+                <div className="flex items-center gap-3">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="10"
+                    height="10"
+                    viewBox="0 0 24 24"
+                    fill="white"
+                    style={{
+                      transform: `rotate(${colapsReview ? 180 : 270}deg)`,
+                    }}
+                    onClick={() => setColapsReview(!colapsReview)}
+                  >
+                    <path d="m4.431 12.822 13 9A1 1 0 0 0 19 21V3a1 1 0 0 0-1.569-.823l-13 9a1.003 1.003 0 0 0 0 1.645z"></path>
+                  </svg>
+                  <div className="flex items-center gap-3 ">
+                    <div className="h-3 w-3 rounded-full bg-blue-500 shadow-[0_0_4px_1px_rgba(59,130,246,0.7)] "></div>
+                    <h1>In Review</h1>{" "}
+                  </div>
                 </div>
-              )}
-            </div>
-            {tasks &&
-              selectedBoard &&
-              !colapsProgress &&
-              tasks.map((task, index) => {
-                if (
-                  task.status === "in progress" &&
-                  // selectedBoard === task.board_Id._id ||
-                  selectedBoard === task.board_Id
-                ) {
-                  return (
-                    <div className="w-full" key={index}>
-                      <Task task={task} />
-                    </div>
-                  );
-                }
-                return null; // If task status is not "backlog", return nothing
-              })}
-          </div>
-          <div className="flex flex-col items-center gap-2 max-w-[260px] w-full mx-auto border border-[#454546] rounded-2xl p-2 ">
-            <div className="flex items-center justify-between w-full border-b border-gray-400 p-3">
-              <div className="flex items-center gap-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="10"
-                  height="10"
+                  width="20"
+                  height="20"
                   viewBox="0 0 24 24"
-                  fill="white"
-                  style={{
-                    transform: `rotate(${colapsReview ? 180 : 270}deg)`,
-                  }}
-                  onClick={() => setColapsReview(!colapsReview)}
+                  style={{ fill: "white" }}
+                  onClick={() => handleAddTaskClick(3)}
                 >
-                  <path d="m4.431 12.822 13 9A1 1 0 0 0 19 21V3a1 1 0 0 0-1.569-.823l-13 9a1.003 1.003 0 0 0 0 1.645z"></path>
+                  <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"></path>
                 </svg>
-                <div className="flex items-center gap-3 ">
-                  <div className="h-3 w-3 rounded-full bg-blue-500 shadow-[0_0_4px_1px_rgba(59,130,246,0.7)] "></div>
-                  <h1>In Review</h1>{" "}
-                </div>
               </div>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                style={{ fill: "white" }}
-                onClick={() => handleAddTaskClick(3)}
-              >
-                <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"></path>
-              </svg>
-            </div>
-            <div>
-              {addTask == 3 && !colapsReview && (
-                <div ref={addTaskFormRef}>
-                  <AddTask setAddTask={setAddTask} status={"review"} />
-                </div>
-              )}
-            </div>
+              <div>
+                {addTask == 3 && !colapsReview && (
+                  <div ref={addTaskFormRef}>
+                    <AddTask setAddTask={setAddTask} status={"review"} />
+                  </div>
+                )}
+              </div>
 
-            {tasks &&
-              selectedBoard &&
-              !colapsReview &&
-              tasks.map((task, index) => {
-                if (
-                  task.status === "review" &&
-                  // selectedBoard === task.board_Id._id ||
-                  selectedBoard === task.board_Id
-                ) {
-                  return (
-                    <div className="w-full" key={index}>
-                      <Task task={task} />{" "}
-                    </div>
-                  );
-                }
-                return null; // If task status is not "backlog", return nothing
-              })}
-          </div>
-          <div className="flex flex-col items-center gap-2 max-w-[260px] w-full mx-auto border border-[#454546] rounded-2xl p-2 ">
-            <div className="flex items-center justify-between w-full border-b border-gray-400 p-3">
-              <div className="flex items-center gap-3">
+              {tasks &&
+                selectedBoard &&
+                !colapsReview &&
+                tasks.map((task, index) => {
+                  if (
+                    task.status === "review" &&
+                    // selectedBoard === task.board_Id._id ||
+                    selectedBoard === task.board_Id
+                  ) {
+                    return (
+                      <div className="w-full" key={index}>
+                        <Task task={task} />{" "}
+                      </div>
+                    );
+                  }
+                  return null; // If task status is not "backlog", return nothing
+                })}
+            </div>
+            <div className="flex flex-col items-center gap-2 max-w-[260px] w-full mx-auto border border-[#454546] rounded-2xl p-2 ">
+              <div className="flex items-center justify-between w-full border-b border-gray-400 p-3">
+                <div className="flex items-center gap-3">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="10"
+                    height="10"
+                    viewBox="0 0 24 24"
+                    fill="white"
+                    style={{
+                      transform: `rotate(${colapsCompleted ? 180 : 270}deg)`,
+                    }}
+                    onClick={() => setColapsCompleted(!colapsCompleted)}
+                  >
+                    <path d="m4.431 12.822 13 9A1 1 0 0 0 19 21V3a1 1 0 0 0-1.569-.823l-13 9a1.003 1.003 0 0 0 0 1.645z"></path>
+                  </svg>
+                  <div className="flex items-center gap-2">
+                    <div className="h-3 w-3 rounded-full bg-green-500 shadow-[0_0_4px_1px_rgba(34,197,94,0.7)]"></div>
+                    <h1>Completed</h1>
+                  </div>
+                </div>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="10"
-                  height="10"
+                  width="20"
+                  height="20"
                   viewBox="0 0 24 24"
-                  fill="white"
-                  style={{
-                    transform: `rotate(${colapsCompleted ? 180 : 270}deg)`,
-                  }}
-                  onClick={() => setColapsCompleted(!colapsCompleted)}
+                  style={{ fill: "white" }}
+                  onClick={() => handleAddTaskClick(4)}
                 >
-                  <path d="m4.431 12.822 13 9A1 1 0 0 0 19 21V3a1 1 0 0 0-1.569-.823l-13 9a1.003 1.003 0 0 0 0 1.645z"></path>
+                  <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"></path>
                 </svg>
-                <div className="flex items-center gap-2">
-                  <div className="h-3 w-3 rounded-full bg-green-500 shadow-[0_0_4px_1px_rgba(34,197,94,0.7)]"></div>
-                  <h1>Completed</h1>
-                </div>
               </div>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                style={{ fill: "white" }}
-                onClick={() => handleAddTaskClick(4)}
-              >
-                <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"></path>
-              </svg>
+              <div>
+                {addTask == 4 && !colapsCompleted && (
+                  <div ref={addTaskFormRef}>
+                    <AddTask setAddTask={setAddTask} status={"completed"} />
+                  </div>
+                )}
+              </div>
+              {tasks &&
+                selectedBoard &&
+                !colapsCompleted &&
+                tasks.map((task, index) => {
+                  if (
+                    task.status === "completed" &&
+                    // selectedBoard === task.board_Id._id ||
+                    selectedBoard === task.board_Id
+                  ) {
+                    return (
+                      <div className="w-full" key={index}>
+                        <Task task={task} />
+                      </div>
+                    );
+                  }
+                  return null; // If task status is not "backlog", return nothing
+                })}
             </div>
-            <div>
-              {addTask == 4 && !colapsCompleted && (
-                <div ref={addTaskFormRef}>
-                  <AddTask setAddTask={setAddTask} status={"completed"} />
-                </div>
-              )}
-            </div>
-            {tasks &&
-              selectedBoard &&
-              !colapsCompleted &&
-              tasks.map((task, index) => {
-                if (
-                  task.status === "completed" &&
-                  // selectedBoard === task.board_Id._id ||
-                  selectedBoard === task.board_Id
-                ) {
-                  return (
-                    <div className="w-full" key={index}>
-                      <Task task={task} />
-                    </div>
-                  );
-                }
-                return null; // If task status is not "backlog", return nothing
-              })}
           </div>
         </div>
-      </div>
+      ) : (
+        <div className="h-screen w-full bg-[#2a2a2a] flex justify-center items-center text-xl">
+          Add Bords to continue
+        </div>
+      )}
     </div>
   );
 }

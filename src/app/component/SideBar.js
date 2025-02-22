@@ -124,8 +124,11 @@ export default function SideBar() {
           </button> */}
             {user && !colaps && (
               <div className="flex gap-2 text-gray-400">
-                <div>{user.name}</div> |
-                <button onClick={handleLogout}>Logout</button>
+                <div className="  hover:text-white uppercase">{user.name}</div>{" "}
+                |
+                <button className=" hover:text-white" onClick={handleLogout}>
+                  Logout
+                </button>
               </div>
             )}
           </div>

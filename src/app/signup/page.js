@@ -63,7 +63,7 @@ export default function LoginSignupForm() {
           <h1 className=" text-white text-2xl mb-5 mt-1">Task App</h1>
           <input
             type="text"
-            className=" bg-[#3a3939] py-2 rounded-lg px-3 text-sm w-60 text-white outline-none mb-4"
+            className=" bg-[#3a3939] py-2 rounded-lg px-3 text-sm w-60 text-white outline-none mb-4 shadow-xl"
             placeholder="name"
             required
             value={name}
@@ -71,7 +71,7 @@ export default function LoginSignupForm() {
           ></input>
           <input
             type="text"
-            className=" bg-[#3a3939] py-2 rounded-lg px-3 text-sm w-60 text-white outline-none mb-4"
+            className=" bg-[#3a3939] py-2 rounded-lg px-3 text-sm w-60 text-white outline-none mb-4 shadow-xl"
             placeholder="Username"
             required
             value={username}
@@ -79,7 +79,7 @@ export default function LoginSignupForm() {
           ></input>
           <input
             type="password"
-            className=" bg-[#3a3939] py-2 rounded-lg px-3 text-sm w-60 text-white outline-none mb-2"
+            className=" bg-[#3a3939] py-2 rounded-lg px-3 text-sm w-60 text-white outline-none mb-2 shadow-xl"
             placeholder="password"
             value={password}
             required
@@ -94,7 +94,7 @@ export default function LoginSignupForm() {
         <div className="flex flex-col items-center">
           <button
             type="submit"
-            className="bg-[#201f1f] py-2 rounded-2xl text-sm w-60 text-white flex gap-2 justify-center items-center "
+            className="bg-[#201f1f] py-2 rounded-2xl text-sm w-60 text-white flex gap-2 justify-center items-center shadow-xl hover:bg-[#222222] active:bg-[#383838] transition-all "
           >
             Sign Up
             {loading && (

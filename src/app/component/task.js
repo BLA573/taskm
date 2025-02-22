@@ -81,7 +81,7 @@ export default function Task({ task }) {
           />
           <button
             type="submit"
-            className="text-sm bg-[#1a1a1a] px-3 py-1 rounded-2xl flex items-center justify-center shadow-lg gap-2 mt-1"
+            className="text-sm bg-[#1a1a1a] px-3 py-1 rounded-2xl flex items-center justify-center shadow-lg gap-2 mt-1 hover:bg-[#222222] active:bg-[#383838] transition-all"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
